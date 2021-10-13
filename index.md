@@ -1,37 +1,199 @@
-## Welcome to GitHub Pages
+## probdists
 
-You can use the [editor on GitHub](https://github.com/saeyma/probdists/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+### Overview  
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+`probdists` is a Python package to model probability distributions.  
+Supports Bernoulli, Binomial, Exponential, Gamma, Gaussian, Triangular, and Uniform Distributions with support for Poisson, Bates, and Irwin-Hall on the way!  
 
-### Markdown
+For usage, see [here](#usage)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Installation 
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+Installing using pip:
+```
+>>> pip install probdists
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Installing using virtual-environment(recommended):
+```
+>>> conda create -n myEnv python=3.6 anaconda
+>>> conda activate myEnv
+>>> pip install probdists
+```
 
-### Jekyll Themes
+You can find the project on PyPi [here](https://pypi.org/project/probdists/)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/saeyma/probdists/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Usage  
 
-### Support or Contact
+Here, we shall demonstrate a general workflow by taking a particular class, say, Gaussian. 
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+After installation, we can likewise interact with the package:  
+
+```
+>>> from probdists import Gaussian
+
+>>> gaussian = Gaussian()
+>>> gaussian.read_data_file('demo_gaussian_data')
+# for your own file, replace 'demo_gaussian_data' with 'my_text_file.txt'
+
+# to access data
+>>> print(gaussian.data)
+[1, 3, 99, 100, 120, 32, 330, 23, 76, 44, 31]
+
+# to calculate mean
+>>> print(gaussian.calculate_mean())
+78.09
+
+# to calculate standard deviation
+>>> print(gaussian.calculate_stdev())
+92.87
+
+# to calculate pdf
+>>> print(gaussian.calculate_pdf(25, 5))
+0.00365
+
+# to calculate cdf
+>>> print(gaussian.cdf(25, 5))
+0.28378
+
+# to add two individual distributions
+>>> gaussian_one = Gaussian(25, 3)
+>>> gaussian_two = Gaussian(30, 4)
+>>> gaussian_sum = gaussian_one + gaussian_two
+>>> print(gaussian_sum.mean)
+55
+>>> print(gaussian_sum.stdev)
+5.0
+
+# plot histogram of data
+>>> gaussian.plot_histogram()
+
+# plot normalized histogram of data and plot of pdf along same range
+>>> gaussian.plot_histogram_pdf(n_spaces = 50)
+```
+
+## Documentation   
+
+### Distribution  
+
+The Distribution class is a base class that all other concrete classes inherit from. It provides common fields such as `mean`, `stdev`, `pdf`, and `cdf` and implements `read_data_file()` function.  
+
+> `read_data_file(self, file_name, separator='\\n', header=None)` 
+
+Function to read in data from a txt file, csv file
+and excel formats (xls, xlsx, xlsm, xlsb, odf, ods and odt)
+
+The txt file should have one number (float) per line or
+numbers should be separator seperated.
+
+No need for separator argument with csv file, it will
+by default be ',' so csv files should have , seperated
+numbers
+
+For excel file formats. There should only be one column
+containing numbers, and if 0th row is header then header
+argument should be 0. The numbers are taken from next row
+mentioned in header parameter.
+
+The numbers are stored in the data attribute.
+
+Args:
+    file_name (string): name of a file to read from
+    separator (character): custom separator to use if required
+    header (int or by default None): to specify if excel file
+    contains header.
+Returns:
+    None
+
+You should instantiate a child of Distribution class and not this class itself.  
+
+## Bernoulli Distribution   
+
+Bernoulli distribution class for calculating and
+    visualizing a Bernoulli distribution.
+
+    Attributes:
+        mean (float) representing the mean value of the distribution
+        stdev (float) representing the standard deviation of the distribution
+        data_list (list of floats) to be extracted from the data file
+        p (float) representing the probability of an event occurring (1). Default 0.5
+
+> `calculate_mean(self, round_to=2)`  
+Method to calculate the mean of a Bernoulli distribution
+
+        Args:
+            round_to (int): Round the mean value. Defaults to 2.
+
+        Returns:
+            float: mean of the data set 
+
+> `calculate_stdev(self, round_to=2)`  
+Function to calculate the standard deviation from p.
+
+        Args:
+            round_to (int): Round the mean value. Defaults to 2.
+
+        Returns:
+            float: standard deviation of the data set
+
+> `replace_stats_with_data(self)` 
+ Method to calculate p from the data set
+
+        Args:
+            None
+
+        Returns:
+            float: the p value
+
+> `plot_bar(self)`  
+ Method to plot a histogram of the instance variable data using
+        matplotlib pyplot library.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+> `calculate_pdf(self, k, round_to=2)`
+Method to calculate pdf for the bernoulli distribution.
+
+        Args:
+            k (float): point for calculating the probability density function. Range of k: {0,1}
+            round_to (int): Round the mean value. [Default value: 2 floating point]
+
+        Returns:
+            float: probability density function output
+
+> `calculate_cdf(self, k, round_to=2)` 
+Method to calculate cdf for the bernoulli distribution.
+
+        Args:
+            k (float): point for calculating the cumulative distribution function
+            round_to (int): Round the mean value. [Default value: 2 floating point]
+
+        Returns:
+            float: cumulative distribution function output
+
+> `plot_bar_pdf(self)`
+Method to plot the pdf of the bernoulli distribution
+
+        Args:
+            None
+
+        Returns:
+            list: x values for the pdf plot
+            list: y values for the pdf plot
+
+The Bernoulli class overrides `__add__()` and `__repr__()` functions to allow you to
+add two objects and get characteristic about it, respectively.  
+
+## Binomial Distribution 
+## Gamma Distribution
+## Gaussian Distribution
+## Triangular Distribution
+## Uniform Distribution
+
+## License  
+
+probdists is distributed under [MIT License](LICENCE.txt)
