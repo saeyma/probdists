@@ -5,7 +5,7 @@
 `probdists` is a Python package to model probability distributions.  
 Supports Bernoulli, Binomial, Exponential, Gamma, Gaussian, Triangular, and Uniform Distributions with support for Poisson, Bates, and Irwin-Hall on the way!  
 
-For usage, see [here](#usage)
+For usage, see [here](#usage).
 
 ### Installation 
 
@@ -14,14 +14,14 @@ Installing using pip:
 >>> pip install probdists
 ```
 
-Installing using virtual-environment(recommended):
+Installing using virtual-environment (recommended):
 ```
 >>> conda create -n myEnv python=3.6 anaconda
 >>> conda activate myEnv
 >>> pip install probdists
 ```
 
-You can find the project on PyPi [here](https://pypi.org/project/probdists/)
+You can find the project on PyPi [here](https://pypi.org/project/probdists/).
 
 ### Usage  
 
@@ -79,7 +79,6 @@ After installation, we can likewise interact with the package:
 The Distribution class is a base class that all other concrete classes inherit from. It provides common fields such as `mean`, `stdev`, `pdf`, and `cdf` and implements `read_data_file()` function.  
 
 > `read_data_file(self, file_name, separator='\\n', header=None)` 
-
 Function to read in data from a txt file, csv file
 and excel formats (xls, xlsx, xlsm, xlsb, odf, ods and odt)
 
@@ -98,12 +97,12 @@ mentioned in header parameter.
 The numbers are stored in the data attribute.
 
 Args:
-    file_name (string): name of a file to read from
-    separator (character): custom separator to use if required
-    header (int or by default None): to specify if excel file
-    contains header.
-Returns:
-    None
+    file_name (string): name of a file to read from   
+    separator (character): custom separator to use if required   
+    header (int or by default None): to specify if excel file   
+    contains header.    
+Returns:   
+    None    
 
 You should instantiate a child of Distribution class and not this class itself.  
 
@@ -112,78 +111,70 @@ You should instantiate a child of Distribution class and not this class itself.
 Bernoulli distribution class for calculating and
     visualizing a Bernoulli distribution.
 
-    Attributes:
-        mean (float) representing the mean value of the distribution
-        stdev (float) representing the standard deviation of the distribution
-        data_list (list of floats) to be extracted from the data file
-        p (float) representing the probability of an event occurring (1). Default 0.5
+Attributes:
+    mean (float) representing the mean value of the distribution
+    stdev (float) representing the standard deviation of the distribution
+    data_list (list of floats) to be extracted from the data file
+    p (float) representing the probability of an event occurring (1). Default 0.5
 
 > `calculate_mean(self, round_to=2)`  
 Method to calculate the mean of a Bernoulli distribution
 
-        Args:
-            round_to (int): Round the mean value. Defaults to 2.
-
-        Returns:
-            float: mean of the data set 
+Args:   
+    round_to (int): Round the mean value. Defaults to 2.   
+Returns:    
+    float: mean of the data set    
 
 > `calculate_stdev(self, round_to=2)`  
 Function to calculate the standard deviation from p.
 
-        Args:
-            round_to (int): Round the mean value. Defaults to 2.
-
-        Returns:
-            float: standard deviation of the data set
+Args:   
+    round_to (int): Round the mean value. Defaults to 2.   
+Returns:   
+    float: standard deviation of the data set.   
 
 > `replace_stats_with_data(self)` 
- Method to calculate p from the data set
+Method to calculate p from the data set
 
-        Args:
-            None
-
-        Returns:
-            float: the p value
+Args:   
+    None   
+Returns:   
+    float: the p value   
 
 > `plot_bar(self)`  
- Method to plot a histogram of the instance variable data using
-        matplotlib pyplot library.
+Method to plot a histogram of the instance variable data using matplotlib pyplot library.
 
-        Args:
-            None
-
-        Returns:
-            None
+Args:
+    None
+Returns:
+    None
 
 > `calculate_pdf(self, k, round_to=2)`
 Method to calculate pdf for the bernoulli distribution.
 
-        Args:
-            k (float): point for calculating the probability density function. Range of k: {0,1}
-            round_to (int): Round the mean value. [Default value: 2 floating point]
-
-        Returns:
-            float: probability density function output
+Args:
+    k (float): point for calculating the probability density function. Range of k: {0, 1}
+    round_to (int): Round the mean value. [Default value: 2 floating point]
+Returns:
+    float: probability density function output
 
 > `calculate_cdf(self, k, round_to=2)` 
 Method to calculate cdf for the bernoulli distribution.
 
-        Args:
-            k (float): point for calculating the cumulative distribution function
-            round_to (int): Round the mean value. [Default value: 2 floating point]
-
-        Returns:
-            float: cumulative distribution function output
+Args:
+    k (float): point for calculating the cumulative distribution function
+    round_to (int): Round the mean value. [Default value: 2 floating point]
+Returns:
+    float: cumulative distribution function output
 
 > `plot_bar_pdf(self)`
 Method to plot the pdf of the bernoulli distribution
 
-        Args:
-            None
-
-        Returns:
-            list: x values for the pdf plot
-            list: y values for the pdf plot
+Args:
+    None
+Returns:
+    list: x values for the pdf plot
+    list: y values for the pdf plot
 
 The Bernoulli class overrides `__add__()` and `__repr__()` functions to allow you to
 add two objects and get characteristic about it, respectively.  
